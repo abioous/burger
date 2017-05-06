@@ -1,0 +1,124 @@
+
+
+
+
+<div class="container">
+
+<img src="/img/burger.jpg" alt="Burger image"></img>
+
+
+
+<h3 class="red-bg white-text">Eat-Da-Burger!</h3>
+
+
+
+<div class="d-flex justify-content-space-between container">
+
+<ul id="notDevoured" class="unstyled-list flex-1">
+ 
+{{#each burgers.notDevoured}}	
+	<li  class="d-flex"> 
+		<span  class="not-devoured">{{this.id}}. {{this.name}}</span> 
+		<button class="devourButton align-self-end" data-id="{{this.id}}">Devour it!</button> 
+	</li>
+{{/each}}
+</ul>
+
+<span> </span>
+
+<ul id="devoured" class="unstyled-list flex-1">
+ 
+{{#each burgers.devoured}}	
+	<li class="d-flex"> <span class="devoured" >{{this.id}}. {{this.name}}</span></li>
+{{/each}}
+</ul>
+
+</div>
+
+<div>
+<textarea id="burger" rows="4" cols="50"></textarea><br>
+<button class="submitButton">Submit</button>
+<p>Enter a burger you wont to eat.Click the "Submit" button</p>
+</div>
+
+
+
+</div>
+
+<script type="text/javascript">
+
+
+		//update devoured and not devoured ul (lists)
+		//it uses the same html fragment as each handelbard templae
+		function render(data) {
+			 	if(data.devoured) {
+					$('#devoured').empty();
+					for(var i = 0;i<data.devoured.length;i++) {
+						var burger = data.devoured[i];
+						var html = '<li class="d-flex"> <span class="devoured" >'+burger.id+'. ' +burger.name + '</span></li>';
+						$('#devoured').append(html);
+					}
+
+				} 
+
+				//refresh notDevoured items 
+				if(data.notDevoured) {
+					$('#notDevoured').empty();
+					for(var i = 0;i<data.notDevoured.length;i++) {
+						var burger = data.notDevoured[i];
+						var html = '<li  class="d-flex">' 
+						html += '<span  class="not-devoured">' + burger.id + '.'+ burger.name + '</span>';
+						html +='<button class="devourButton align-self-end" data-id="'+burger.id + '">Devour it!</button>' 
+						html += '</li>'
+						$('#notDevoured').append(html);
+
+					}
+				}
+				//add click event binding
+				$('.devourButton').click(function() {
+					var clickedButton = $(this);
+					var id = clickedButton.attr('data-id');
+					updateBurger(id);
+				});
+
+		}
+
+		//update burger it uses put method - overrids _method with put
+		function updateBurger(id) {
+			$.post('/api/burgers?_method=put', {
+				id:id
+			}, function(data) {
+				render(data);
+			});
+		}
+
+		//creates a new burger it uses post method
+		function addBurger(name) {
+				$.post('/api/burgers', {
+						name:name
+					}, function(data) {
+						render(data);
+					});
+		}
+
+		//bind click event handler to update burger
+		$('.devourButton').click(function() {
+			var clickedButton = $(this);
+			var id = clickedButton.attr('data-id');
+			updateBurger(id);
+		});
+
+		//bind click handler to add a new burger
+		$('.submitButton').click(function() {
+			var burgerName = $('#burger').val();
+			//clear burger
+			$('#burger').val('');
+			if(burgerName.trim()) {
+				addBurger(burgerName);
+			} else {
+				alert('Enter burger name !')
+			}
+		});
+
+
+</script>

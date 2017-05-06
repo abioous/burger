@@ -1,0 +1,63 @@
+
+
+.unstyled-list{
+	list-style-type: none;
+}
+
+.red-bg {
+	background-color: red;	
+}
+
+.white-text {
+	color: white;
+}
+
+.d-flex {
+	display: flex;
+}
+
+.flex-1 {
+	flex: 1 0;
+}
+
+
+.not-devoured {
+	display: inline-block;
+	height: 4em;
+	width: 20vw;
+	padding-right: 2em;
+	padding-left: 2em;
+	background-color: white;
+	color: black;
+	margin-bottom: 1em; 
+}
+
+.devoured {
+	display: inline-block;
+	height: 1.2em;
+	width: 20vw;
+	background-color: white;
+	color: grey;
+}
+
+.align-self-end {
+	align-self: flex-end;
+	margin-bottom: 1em;
+	margin-left: 1em; 
+}
+
+.justify-content-space-between {
+	justify-content: space-between
+}
+
+.container {
+	width: 60vw;
+}
+
+body{
+	display: flex;
+	background-color: lightyellow;
+	justify-content: center;
+	text-align: center;
+}
+
